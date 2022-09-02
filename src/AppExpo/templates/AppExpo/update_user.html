@@ -1,0 +1,16 @@
+{% extends 'AppExpo/base.html' %}
+
+
+{% block contenido %}
+
+<h1>Editanto información de {{request.user.username}}</h1>
+
+<form method="post"> {% csrf_token %}
+
+    {{form.as_p}}
+    <input type="submit" value="Editar">
+
+</form>
+    
+{% endblock %}
+    

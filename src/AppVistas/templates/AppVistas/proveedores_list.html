@@ -1,0 +1,24 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} {{mensaje_prov1}} {% endblock  %}
+
+{% block mensaje %}
+
+<h1>{{mensaje_prov2}}</h1>
+
+{% endblock %}
+
+{% block contenido %}
+
+<p>Listado de proveedores:</p>
+<a href="{% url 'proveedores_creat' %}">Agregar proveedor</a>
+
+    {% for proveedor in object_list %}
+        <p style="color: green">{{proveedor.razon}} 
+            <a href="{% url 'proveedores_detail' proveedor.id %}">Ver más</a>
+            <a href="{% url 'proveedores_delete' proveedor.id %}">Eliminar</a>
+            <a href="{% url 'proveedores_update' proveedor.id %}">Modificar</a>
+        </p>    
+    {% endfor %}
+
+{% endblock %}

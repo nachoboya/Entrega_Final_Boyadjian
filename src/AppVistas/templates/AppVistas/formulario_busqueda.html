@@ -1,0 +1,23 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} Buscador {% endblock  %}
+
+{% block mensaje %}
+
+Desde este buscador podes encontrar cualquiera de nuestros productos
+
+{% endblock %}
+
+{% block contenido %}
+
+<form action="{% url 'buscar' %}" method="get">
+
+    <p>
+        Indique un producto:
+        <input type="text" name="producto">
+        <input type="submit" value="Buscar">
+    </p>
+
+</form>
+
+{% endblock %}

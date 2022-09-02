@@ -1,0 +1,31 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} {{mensaje_pro1}} {% endblock  %}
+
+{% block mensaje %}
+
+<h1>{{mensaje_pro2}}</h1>
+
+{% endblock %}
+
+{% block contenido %}
+
+<p>Desde este formulario se puede cargar un nuevo producto:</p>
+
+<form method="post">{% csrf_token %}
+
+    {{ form_producto.as_p }}
+
+    <input type="submit" value="Crear">
+</form>
+
+<p>Listado de productos:</p>
+
+    {% for producto in productos %}
+        <p style="color: blue">{{producto.modelo}}  
+            <a href="{%url 'borrar_producto' producto.id %}">Eliminar</a>
+            <a href="{%url 'editar_producto' producto.id %}">Editar</a>  
+        </p>    
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'AppVistas/base.html' %}
+
+
+{% block contenido %}
+
+    <form method="post">{% csrf_token %}
+        
+        <p>Desea borrar efectivamente a el proveedor {{object}}</p>
+        <input type="submit" value="Confirmar">
+        <a href="{%url 'proveedores' %}">Volver</a>
+
+    </form>
+    
+{% endblock contenido %}
+

@@ -1,0 +1,20 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} Buscador {% endblock  %}
+
+{% block mensaje %}
+
+Desde este buscador podes encontrar cualquiera de nuestros productos
+
+{% endblock %}
+
+{% block contenido %}
+
+<h1>Resultados</h1>
+<b>Modelo   -   Articulo   -   Stock</b>
+    {% for producto in productos %}
+        <p>{{producto.modelo}}   -   {{producto.articulo}}   -   {{producto.stock}}</p>
+    {% endfor %}
+
+{% endblock %}
+
