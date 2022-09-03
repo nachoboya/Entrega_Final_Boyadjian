@@ -14,6 +14,5 @@ urlpatterns = [
     path("edit/", editar_usuario, name="editar_usuario"),
     path("avatar/", agregar_avatar, name="agregar_avatar"),
 
-
-    
+    path("about/", about, name="about"),    
 ]

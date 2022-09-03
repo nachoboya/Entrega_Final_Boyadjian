@@ -1,0 +1,19 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} {{mensaje_pro1}} {% endblock  %}
+
+{% block mensaje %}
+
+<h1>{{mensaje_pro2}}</h1>
+
+{% endblock %}
+
+{% block contenido %}
+
+<p>Detalle de marca:</p>
+
+    <h1>Nombre: {{marcas.nombre}} </h1>
+    <h1>Nacionalidad: {{marcas.nacionalidad}} </h1>
+    <h1>Inicio de actividad: {{marcas.Inicio_Actividad}} </h1>
+
+{% endblock %}

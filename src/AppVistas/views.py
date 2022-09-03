@@ -77,6 +77,18 @@ def borrar_producto(request, id_producto):
 
         return render(request, "AppVistas/productos.html",contexto_pro)
 
+def detalle_producto(request, id_producto):
+
+    productos = Producto.objects.get(id=id_producto)
+
+    contexto_pro = {
+        "mensaje_pro1":"Nuestros productos",
+        "mensaje_pro2":"Este es el detalle:",
+        "productos":productos,
+        }
+
+    return render(request, "AppVistas/producto_detalle.html",contexto_pro)
+
 def formulario_busqueda(request):
     return render(request, "AppVistas/formulario_busqueda.html")
 
@@ -114,7 +126,7 @@ def actualizar_producto(request,id_producto):
 
                 producto.save()
             except:
-                return redirect("inicio")
+                return render(request, "AppVistas/volver.html")
 
         return redirect("productos")
 
@@ -169,7 +181,8 @@ def marcas(request):
 
             nombre = data.get("nombre")
             nacionalidad = data.get("nacionalidad")
-            marca = Marcas(nombre=nombre, nacionalidad=nacionalidad)
+            Inicio_Actividad = data.get("Inicio_Actividad")
+            marca = Marcas(nombre=nombre, nacionalidad=nacionalidad, Inicio_Actividad=Inicio_Actividad)
 
             marca.save()
 
@@ -185,6 +198,7 @@ def marcas(request):
             return render(request, "AppVistas/volver.html")
 
 def borrar_marca(request, id_marca):
+
 
     marcas = Marcas.objects.all()
     form_marca = MarcaFormulario()
@@ -203,3 +217,44 @@ def borrar_marca(request, id_marca):
         }
 
         return render(request, "AppVistas/marcas.html",contexto_mar)
+
+def detalle_marca(request, id_marca):
+    
+    marcas = Marcas.objects.get(id=id_marca)
+
+    contexto_mar = {
+        "mensaje_pro1":"Nuestras marcas",
+        "mensaje_pro2":"Este es el detalle:",
+        "marcas":marcas,
+        }
+
+    return render(request, "AppVistas/marca_detalle.html",contexto_mar)
+
+def actualizar_marca(request,id_marca):
+
+    if request.method == "GET":
+        formulario = MarcaFormulario()
+        contexto={
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Este es el listado de nuestros productos",
+            "formulario":formulario,
+        }
+        return render(request, "AppVistas/marca_actualizar.html", contexto)
+    else:
+        formulario = MarcaFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+
+            try:
+                marca = Marcas.objects.get(id=id_marca)
+
+                marca.nombre = data.get("nombre")
+                marca.nacionalidad = data.get("nacionalidad")
+                marca.Inicio_Actividad = data.get("Inicio_Actividad")
+
+                marca.save()
+            except:
+                return render(request, "AppVistas/volver.html")
+
+        return redirect("marcas")

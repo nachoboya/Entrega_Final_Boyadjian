@@ -1,0 +1,19 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} {{mensaje_pro1}} {% endblock  %}
+
+{% block mensaje %}
+
+<h1>{{mensaje_pro2}}</h1>
+
+{% endblock %}
+
+{% block contenido %}
+
+<p>Detalle de producto:</p>
+
+    <h1>Modelo: {{productos.modelo}} </h1>
+    <h1>Artículo: {{productos.articulo}} </h1>
+    <h1>Stock: {{productos.stock}} </h1>
+
+{% endblock %}

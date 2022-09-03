@@ -1,4 +1,4 @@
-from django.forms import Form, IntegerField, CharField, EmailField, BooleanField, PasswordInput, ImageField
+from django.forms import Form, IntegerField, CharField, BooleanField, DateField
 
 class ProductoFormulario(Form):
 
@@ -10,3 +10,4 @@ class MarcaFormulario(Form):
 
     nombre = CharField()
     nacionalidad = CharField()
+    Inicio_Actividad = DateField()

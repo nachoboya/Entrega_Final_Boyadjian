@@ -1,0 +1,35 @@
+{% extends 'AppExpo/base.html' %}
+
+
+{% block titulo %}
+    Foro
+{% endblock  %}
+
+{% block mensaje %}
+    <h1>Dejen sus mensajes a sus compañero!</h1>
+{% endblock  %}
+
+
+{% block contenido %}
+    
+
+<form method="post">{% csrf_token %}
+
+    {{ form_foro.as_p }}
+
+    <input type="submit" value="Publicar">
+</form>
+
+<p>Foro:</p>
+    
+    {% for mensaje in mensajes %}
+        <p style="color: black">{{mensaje.chat}} - {{mensaje.fecha}} - {{mensaje.hora}} - {{ mensaje.usuario}}
+        <a href="{%url 'borrar_mensaje' mensaje.id %}">Eliminar</a>
+        <a href="{%url 'editar_mensaje' mensaje.id %}">Editar</a>
+    </p>    
+    {% endfor %}
+
+
+
+{% endblock  %}
+    

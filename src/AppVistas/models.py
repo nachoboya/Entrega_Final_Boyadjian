@@ -22,6 +22,7 @@ class Proveedores(models.Model):
 class Marcas(models.Model):
     nombre = models.CharField(max_length=30)
     nacionalidad = models.CharField(max_length=30)
+    Inicio_Actividad = models.DateField()
 
     def __str__(self):
-        return f"{self.nombre} - {self.nacionalidad}"
+        return f"{self.nombre} - {self.nacionalidad} - {self.Inicio_Actividad}"

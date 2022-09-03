@@ -1,0 +1,23 @@
+{% extends 'AppExpo/base.html' %}
+
+{% block titulo %} Foro {% endblock  %}
+
+{% block mensaje %}
+
+<h1>Edita el mensaje!</h1>
+
+{% endblock %}
+
+{% block contenido %}
+
+<p>Desde este formulario se puede modificar el mensaje:</p>
+
+<form method="post">{% csrf_token %}
+
+    {{ form_foro.as_p }}
+
+    <input type="submit" value="Modificar">
+</form>
+
+{% endblock  %}
+    

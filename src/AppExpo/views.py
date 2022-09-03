@@ -59,7 +59,6 @@ def iniciar_sesion(request):
                 }
             return render(request ,"AppExpo/login.html" , contexto)
 
-
 def registrar_usuario(request):
     if request.method == "GET":
         formulario = UserCustomCreationForm()
@@ -74,7 +73,6 @@ def registrar_usuario(request):
             return redirect("inicio")
         else: 
             return render(request, "AppExpo/registro.html", {"form":formulario, "error": "Formulario no válido"})
-
 
 @login_required
 def editar_usuario(request):
@@ -117,6 +115,7 @@ def agregar_avatar(request):
             avatar = Avatar(usuario=usuario, imagen=data["imagen"])
 
             avatar.save()
-            return redirect("inicio")
-        
-            
+            return redirect("inicio")         
+
+def about(request):
+    return render(request, "AppExpo/about.html")

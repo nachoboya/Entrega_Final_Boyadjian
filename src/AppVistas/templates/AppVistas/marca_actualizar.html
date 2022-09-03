@@ -1,0 +1,23 @@
+{% extends 'AppVistas/base.html' %}
+
+{% block titulo %} {{mensaje_pro1}} {% endblock  %}
+
+{% block mensaje %}
+
+<h1>{{mensaje_pro2}}</h1>
+
+{% endblock %}
+
+{% block contenido %}
+
+<p>Desde este formulario se puede modificar una marca:</p>
+
+<form method="post">{% csrf_token %}
+
+    {{ formulario.as_p }}
+
+    <input type="submit" value="Modificar">
+</form>
+
+
+{% endblock %}
