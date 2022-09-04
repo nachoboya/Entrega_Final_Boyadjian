@@ -135,4 +135,7 @@ def agregar_avatar(request):
 
 
 def about(request):
-    return render(request, "AppExpo/about.html")
+        
+    avatar = Avatar.objects.filter(usuario=request.user).first()
+
+    return render(request, "AppExpo/about.html", {"imagen":avatar.imagen.url})

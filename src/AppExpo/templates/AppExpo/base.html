@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Shop Homepage - Start Bootstrap Template</title>
+        <title>Ricardian's</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -44,7 +44,6 @@
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="{% url 'registro' %}">Registrar usuario</a></li>
                                         <li><a class="dropdown-item" href="{% url 'editar_usuario' %}">Editar usuario</a></li>
                                         <li><a class="dropdown-item" href="{% url 'agregar_avatar' %}">Agregar avatar</a></li>
                                 </ul>
@@ -53,7 +52,7 @@
                     {% else %} 
                         <form class="d-flex">
                             <li class="btn btn-primary"><a style="color: white" class="nav-link" href="{% url 'iniciar_sesion' %}">Login</a></li>
-                            <li class="btn btn-primary"><a style="color: white" class="nav-link" href="{% url 'registro' %}">Registrar usuario</a></li>
+                            <li class="btn btn-primary"><a style="color: white" class="nav-link" href="{% url 'registro' %}">Registrate</a></li>
                         </form>
                     {% endif %}          
                 </div>

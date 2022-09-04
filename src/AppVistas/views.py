@@ -4,6 +4,8 @@ from AppVistas.models import Producto, Proveedores, Marcas
 from AppVistas.forms import ProductoFormulario, MarcaFormulario
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from AppExpo.models import Avatar
+
 #Permisos de usuario
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -11,10 +13,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 def vistas(request):
 
-    return render(request, "AppVistas/vistas.html")
+    avatar = Avatar.objects.filter(usuario=request.user).first()
+
+    return render(request, "AppVistas/vistas.html", {"imagen":avatar.imagen.url})
 
 def productos(request):
 
+    avatar = Avatar.objects.filter(usuario=request.user).first()
     productos = Producto.objects.all()
 
     if request.method == "GET":
@@ -24,7 +29,8 @@ def productos(request):
         "mensaje_pro1":"Nuestros productos",
         "mensaje_pro2":"Este es el listado de nuestros productos",
         "productos":productos,
-        "form_producto":form_producto
+        "form_producto":form_producto,
+        "imagen":avatar.imagen.url
         }
 
         return render(request, "AppVistas/productos.html", contexto_pro)
@@ -50,15 +56,17 @@ def productos(request):
             "mensaje_pro1":"Nuestros productos",
             "mensaje_pro2":"Nuevo producto cargado!",
             "productos":productos,
-            "form_producto":form_producto
+            "form_producto":form_producto,
+            "imagen":avatar.imagen.url
             }
 
             return render(request, "AppVistas/productos.html", contexto_pro)
         else:
-            return render(request, "AppVistas/volver.html")
+            return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
 
 def borrar_producto(request, id_producto):
-
+    
+    avatar = Avatar.objects.filter(usuario=request.user).first()
     productos = Producto.objects.all()
     form_producto = ProductoFormulario()
 
@@ -72,37 +80,46 @@ def borrar_producto(request, id_producto):
         "mensaje_pro1":"Nuestros productos",
         "mensaje_pro2":"Error, no se puede borrar el producto!",
         "productos":productos,
-        "form_producto":form_producto
+        "form_producto":form_producto,
+        "imagen":avatar.imagen.url
         }
 
         return render(request, "AppVistas/productos.html",contexto_pro)
 
 def detalle_producto(request, id_producto):
 
+    avatar = Avatar.objects.filter(usuario=request.user).first()
     productos = Producto.objects.get(id=id_producto)
 
     contexto_pro = {
         "mensaje_pro1":"Nuestros productos",
         "mensaje_pro2":"Este es el detalle:",
         "productos":productos,
+        "imagen":avatar.imagen.url
         }
 
     return render(request, "AppVistas/producto_detalle.html",contexto_pro)
 
 def formulario_busqueda(request):
-    return render(request, "AppVistas/formulario_busqueda.html")
+        
+    avatar = Avatar.objects.filter(usuario=request.user).first()
+
+    return render(request, "AppVistas/formulario_busqueda.html", {"imagen":avatar.imagen.url})
 
 def buscar(request):
 
+    avatar = Avatar.objects.filter(usuario=request.user).first()
     producto_modelo = request.GET.get("producto", None)
 
     if not producto_modelo or not Producto.objects.filter(modelo__icontains=producto_modelo):
-        return render(request, "AppVistas/volver.html")
+        return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
 
     producto_lista = Producto.objects.filter(modelo__icontains=producto_modelo)
-    return render(request, "AppVistas/resultado_busqueda.html", {"productos": producto_lista})
+    return render(request, "AppVistas/resultado_busqueda.html", {"productos": producto_lista, "imagen":avatar.imagen.url})
 
 def actualizar_producto(request,id_producto):
+
+    avatar = Avatar.objects.filter(usuario=request.user).first()
 
     if request.method == "GET":
         formulario = ProductoFormulario()
@@ -110,6 +127,7 @@ def actualizar_producto(request,id_producto):
             "mensaje_pro1":"Nuestros productos",
             "mensaje_pro2":"Este es el listado de nuestros productos",
             "formulario":formulario,
+            "imagen":avatar.imagen.url
         }
         return render(request, "AppVistas/producto_actualizar.html", contexto)
     else:
@@ -126,7 +144,7 @@ def actualizar_producto(request,id_producto):
 
                 producto.save()
             except:
-                return render(request, "AppVistas/volver.html")
+                return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
 
         return redirect("productos")
 
@@ -159,6 +177,8 @@ class ProveedoresDelete(DeleteView):
 
 def marcas(request):
 
+    avatar = Avatar.objects.filter(usuario=request.user).first()
+
     marcas = Marcas.objects.all()
     if request.method == "GET":
         form_marca = MarcaFormulario()
@@ -167,7 +187,8 @@ def marcas(request):
             "mensaje_mar1":"Las marcas",
             "mensaje_mar2":"Trabajamos únicamente con las mejores marcas del mercado",
             "marcas":marcas,
-            "form_marca":form_marca
+            "form_marca":form_marca,
+            "imagen":avatar.imagen.url
         }
 
         return render(request, "AppVistas/marcas.html", contexto_mar)
@@ -191,14 +212,16 @@ def marcas(request):
             "mensaje_mar1":"Las marcas",
             "mensaje_mar2":"Nueva marca cargada!",
             "marcas":marcas,
-            "form_marca":form_marca
+            "form_marca":form_marca,
+            "imagen":avatar.imagen.url
             }
             return render(request, "AppVistas/marcas.html", contexto_mar)
         else:
-            return render(request, "AppVistas/volver.html")
+            return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
 
 def borrar_marca(request, id_marca):
 
+    avatar = Avatar.objects.filter(usuario=request.user).first()
 
     marcas = Marcas.objects.all()
     form_marca = MarcaFormulario()
@@ -213,24 +236,29 @@ def borrar_marca(request, id_marca):
         "mensaje_mar1":"Nuestros marcas",
         "mensaje_mar2":"Error, no se puede borrar la marca!",
         "marcas":marcas,
-        "form_marca":form_marca
+        "form_marca":form_marca,
+        "imagen":avatar.imagen.url
         }
 
         return render(request, "AppVistas/marcas.html",contexto_mar)
 
 def detalle_marca(request, id_marca):
-    
+
+    avatar = Avatar.objects.filter(usuario=request.user).first()
     marcas = Marcas.objects.get(id=id_marca)
 
     contexto_mar = {
         "mensaje_pro1":"Nuestras marcas",
         "mensaje_pro2":"Este es el detalle:",
         "marcas":marcas,
+        "imagen":avatar.imagen.url
         }
 
     return render(request, "AppVistas/marca_detalle.html",contexto_mar)
 
 def actualizar_marca(request,id_marca):
+
+    avatar = Avatar.objects.filter(usuario=request.user).first()
 
     if request.method == "GET":
         formulario = MarcaFormulario()
@@ -238,6 +266,7 @@ def actualizar_marca(request,id_marca):
             "mensaje_pro1":"Nuestros productos",
             "mensaje_pro2":"Este es el listado de nuestros productos",
             "formulario":formulario,
+            "imagen":avatar.imagen.url
         }
         return render(request, "AppVistas/marca_actualizar.html", contexto)
     else:
@@ -255,6 +284,6 @@ def actualizar_marca(request,id_marca):
 
                 marca.save()
             except:
-                return render(request, "AppVistas/volver.html")
+                return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
 
         return redirect("marcas")
