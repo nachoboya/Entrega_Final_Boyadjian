@@ -68,6 +68,8 @@ def iniciar_sesion(request):
 
 
 def registrar_usuario(request):
+
+
     if request.method == "GET":
         formulario = UserCustomCreationForm()
         return render(request, "AppExpo/registro.html", {"form": formulario})
@@ -86,10 +88,12 @@ def registrar_usuario(request):
 @login_required
 def editar_usuario(request):
 
+    avatar = Avatar.objects.filter(usuario=request.user).first()
+
     if request.method == "GET":
         form = UserEditForm(initial={"email": request.user.email,
                             "first_name": request.user.first_name, "last_name": request.user.last_name})
-        return render(request, "AppExpo/update_user.html", {"form": form})
+        return render(request, "AppExpo/update_user.html", {"form": form,"imagen":avatar.imagen.url})
     else:
         form = UserEditForm(request.POST)
 
@@ -106,7 +110,7 @@ def editar_usuario(request):
 
             usuario.save()
             return redirect("inicio")
-        return render(request, "AppExpo/update_user.html", {"form": form})
+        return render(request, "AppExpo/update_user.html", {"form": form,"imagen":avatar.imagen.url})
 
 
 @login_required
