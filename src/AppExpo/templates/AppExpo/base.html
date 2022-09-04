@@ -22,7 +22,7 @@
             {% if request.user.is_authenticated %}
             <div>
                 <p style="font-size: 15px">Bienvenid@ {{ request.user}}!</p><br>
-                <img src="imagen" alt="Avatar"><br>
+                <img src="{{imagen}}" alt="Avatar"><br>
             </div>
             {% endif %}
             <div class="container px-4 px-lg-5">
@@ -53,6 +53,7 @@
                     {% else %} 
                         <form class="d-flex">
                             <li class="btn btn-primary"><a style="color: white" class="nav-link" href="{% url 'iniciar_sesion' %}">Login</a></li>
+                            <li class="btn btn-primary"><a style="color: white" class="nav-link" href="{% url 'registro' %}">Registrar usuario</a></li>
                         </form>
                     {% endif %}          
                 </div>

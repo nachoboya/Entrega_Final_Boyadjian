@@ -1,4 +1,4 @@
-from django.forms import Form, IntegerField, CharField, EmailField, BooleanField, PasswordInput, ImageField
+from django.forms import Form, CharField, EmailField, PasswordInput, ImageField
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
