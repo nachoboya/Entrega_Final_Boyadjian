@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from AppVistas.models import Producto, Proveedores, Marcas
@@ -5,6 +6,8 @@ from AppVistas.forms import ProductoFormulario, MarcaFormulario
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from AppExpo.models import Avatar
+
+from datetime import datetime
 
 #Permisos de usuario
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -46,7 +49,10 @@ def productos(request):
             modelo = data.get("modelo")
             articulo = data.get("articulo")
             stock = data.get("stock")
-            producto = Producto(modelo=modelo, articulo=articulo, stock=stock)
+            fecha = datetime.now()
+            hora = datetime.now().strftime('%H:%M:%S')
+            usuario = request.user
+            producto = Producto(modelo=modelo, articulo=articulo, stock=stock, fecha=fecha, hora=hora, usuario=usuario)
 
             producto.save()
 
@@ -203,7 +209,10 @@ def marcas(request):
             nombre = data.get("nombre")
             nacionalidad = data.get("nacionalidad")
             Inicio_Actividad = data.get("Inicio_Actividad")
-            marca = Marcas(nombre=nombre, nacionalidad=nacionalidad, Inicio_Actividad=Inicio_Actividad)
+            fecha = datetime.now()
+            hora = datetime.now().strftime('%H:%M:%S')
+            usuario = request.user
+            marca = Marcas(nombre=nombre, nacionalidad=nacionalidad, Inicio_Actividad=Inicio_Actividad, fecha=fecha, hora=hora, usuario=usuario)
 
             marca.save()
 

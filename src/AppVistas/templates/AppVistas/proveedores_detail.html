@@ -1,13 +1,20 @@
 {% extends 'AppVistas/base.html' %}
 
+{% block titulo %} Los datos de nuestros proveedores{% endblock  %}
+
+{% block mensaje %}
+
+<h1>Acá podes ver el detalle de nuestros proveedores</h1>
+
+{% endblock %}
+
 {% block contenido %}
 
 
 <p>Detalle de proveedores:</p>
 
-    <h1>{{proveedores.razon}} </h1>
-    <h1>{{proveedores.email}} </h1>
-    <h1>{{proveedores.ubicacion}} </h1>
-        
+    <h1>Razón social: {{proveedores.razon}} </h1>
+    <h1>Email: {{proveedores.email}} </h1>
+    <h1>Ubicación: {{proveedores.ubicacion}} </h1>
 
 {% endblock %}

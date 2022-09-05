@@ -10,4 +10,4 @@ class Foro(models.Model):
     usuario = models.CharField(max_length=400)
 
     def __str__(self):
-        return f"{self.chat} - {self.fecha} - {self.usuario}"
+        return f"{self.chat} - {self.fecha} - {self.hora} - {self.usuario}"
