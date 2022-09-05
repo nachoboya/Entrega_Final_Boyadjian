@@ -22,8 +22,13 @@ from django.contrib.auth.models import User
 def inicio(request):
 
     avatar = Avatar.objects.filter(usuario=request.user).first()
+    try:
+        contexto = {"imagen":avatar.imagen.url}
+        
+    except:
+        contexto = {"imagen":""}
 
-    return render(request, "AppExpo/index.html", {"imagen":avatar.imagen.url})
+    return render(request, "AppExpo/index.html", contexto)
 
 
 def iniciar_sesion(request):
@@ -93,7 +98,12 @@ def editar_usuario(request):
     if request.method == "GET":
         form = UserEditForm(initial={"email": request.user.email,
                             "first_name": request.user.first_name, "last_name": request.user.last_name})
-        return render(request, "AppExpo/update_user.html", {"form": form,"imagen":avatar.imagen.url})
+    try:
+        contexto = {"form": form,"imagen":avatar.imagen.url}
+        
+    except:
+        contexto = {"form": form,"imagen":""}
+        return render(request, "AppExpo/update_user.html",contexto)
     else:
         form = UserEditForm(request.POST)
 
@@ -110,7 +120,13 @@ def editar_usuario(request):
 
             usuario.save()
             return redirect("inicio")
-        return render(request, "AppExpo/update_user.html", {"form": form,"imagen":avatar.imagen.url})
+        try:
+            contexto = {"form": form,"imagen":avatar.imagen.url}
+        
+        except:
+            contexto = {"form": form,"imagen":""}
+        
+        return render(request, "AppExpo/update_user.html", contexto)
 
 
 @login_required
@@ -137,5 +153,10 @@ def agregar_avatar(request):
 def about(request):
         
     avatar = Avatar.objects.filter(usuario=request.user).first()
+    try:
+        contexto = {"imagen":avatar.imagen.url}
+        
+    except:
+        contexto = {"imagen":""}
 
-    return render(request, "AppExpo/about.html", {"imagen":avatar.imagen.url})
+    return render(request, "AppExpo/about.html", contexto)

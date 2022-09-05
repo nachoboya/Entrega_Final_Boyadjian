@@ -1,4 +1,3 @@
-from urllib import request
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from AppVistas.models import Producto, Proveedores, Marcas
@@ -17,8 +16,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def vistas(request):
 
     avatar = Avatar.objects.filter(usuario=request.user).first()
+    try:
+        contexto = {"imagen":avatar.imagen.url}
+    except:
+        contexto = {"imagen":""}
 
-    return render(request, "AppVistas/vistas.html", {"imagen":avatar.imagen.url})
+    return render(request, "AppVistas/vistas.html", contexto)
 
 def productos(request):
 
@@ -28,13 +31,22 @@ def productos(request):
     if request.method == "GET":
         form_producto = ProductoFormulario()
         
-        contexto_pro = {
-        "mensaje_pro1":"Nuestros productos",
-        "mensaje_pro2":"Este es el listado de nuestros productos",
-        "productos":productos,
-        "form_producto":form_producto,
-        "imagen":avatar.imagen.url
-        }
+        try:
+            contexto_pro = {
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Este es el listado de nuestros productos",
+            "productos":productos,
+            "form_producto":form_producto,
+            "imagen":avatar.imagen.url
+            }
+        except:
+            contexto_pro = {
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Este es el listado de nuestros productos",
+            "productos":productos,
+            "form_producto":form_producto,
+            "imagen":""
+            }
 
         return render(request, "AppVistas/productos.html", contexto_pro)
 
@@ -58,17 +70,30 @@ def productos(request):
 
             form_producto = ProductoFormulario()
 
-            contexto_pro = {
-            "mensaje_pro1":"Nuestros productos",
-            "mensaje_pro2":"Nuevo producto cargado!",
-            "productos":productos,
-            "form_producto":form_producto,
-            "imagen":avatar.imagen.url
-            }
+            try:
+                contexto_pro = {
+                "mensaje_pro1":"Nuestros productos",
+                "mensaje_pro2":"Nuevo producto cargado!",
+                "productos":productos,
+                "form_producto":form_producto,
+                "imagen":avatar.imagen.url
+                }
+            except:
+                contexto_pro = {
+                "mensaje_pro1":"Nuestros productos",
+                "mensaje_pro2":"Nuevo producto cargado!",
+                "productos":productos,
+                "form_producto":form_producto,
+                "imagen":""
+                }
 
             return render(request, "AppVistas/productos.html", contexto_pro)
         else:
-            return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
+            try:
+                contexto = {"imagen":avatar.imagen.url}
+            except:
+                contexto = {"imagen":""}
+            return render(request, "AppVistas/volver.html", contexto)
 
 def borrar_producto(request, id_producto):
     
@@ -82,13 +107,22 @@ def borrar_producto(request, id_producto):
 
         return redirect("productos")
     except:
-        contexto_pro = {
-        "mensaje_pro1":"Nuestros productos",
-        "mensaje_pro2":"Error, no se puede borrar el producto!",
-        "productos":productos,
-        "form_producto":form_producto,
-        "imagen":avatar.imagen.url
-        }
+        try:
+            contexto_pro = {
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Error, no se puede borrar el producto!",
+            "productos":productos,
+            "form_producto":form_producto,
+            "imagen":avatar.imagen.url
+            }
+        except:
+            contexto_pro = {
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Error, no se puede borrar el producto!",
+            "productos":productos,
+            "form_producto":form_producto,
+            "imagen":""
+            }
 
         return render(request, "AppVistas/productos.html",contexto_pro)
 
@@ -97,20 +131,32 @@ def detalle_producto(request, id_producto):
     avatar = Avatar.objects.filter(usuario=request.user).first()
     productos = Producto.objects.get(id=id_producto)
 
-    contexto_pro = {
-        "mensaje_pro1":"Nuestros productos",
-        "mensaje_pro2":"Este es el detalle:",
-        "productos":productos,
-        "imagen":avatar.imagen.url
-        }
+    try:
+        contexto_pro = {
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Este es el detalle:",
+            "productos":productos,
+            "imagen":avatar.imagen.url
+            }
+    except:
+        contexto_pro = {
+            "mensaje_pro1":"Nuestros productos",
+            "mensaje_pro2":"Este es el detalle:",
+            "productos":productos,
+            "imagen":""
+            }
 
     return render(request, "AppVistas/producto_detalle.html",contexto_pro)
 
 def formulario_busqueda(request):
         
     avatar = Avatar.objects.filter(usuario=request.user).first()
+    try:
+        contexto = {"imagen":avatar.imagen.url}
+    except:
+        contexto = {"imagen":""}
 
-    return render(request, "AppVistas/formulario_busqueda.html", {"imagen":avatar.imagen.url})
+    return render(request, "AppVistas/formulario_busqueda.html", contexto)
 
 def buscar(request):
 
@@ -118,10 +164,19 @@ def buscar(request):
     producto_modelo = request.GET.get("producto", None)
 
     if not producto_modelo or not Producto.objects.filter(modelo__icontains=producto_modelo):
-        return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
+        try:
+            contexto = {"imagen":avatar.imagen.url}
+        except:
+            contexto = {"imagen":""}
+        return render(request, "AppVistas/volver.html", contexto)
 
     producto_lista = Producto.objects.filter(modelo__icontains=producto_modelo)
-    return render(request, "AppVistas/resultado_busqueda.html", {"productos": producto_lista, "imagen":avatar.imagen.url})
+    try:
+        contexto={"productos": producto_lista, "imagen":avatar.imagen.url}
+    except:
+        contexto={"productos": producto_lista, "imagen":""}
+
+    return render(request, "AppVistas/resultado_busqueda.html", contexto)
 
 def actualizar_producto(request,id_producto):
 
@@ -129,12 +184,21 @@ def actualizar_producto(request,id_producto):
 
     if request.method == "GET":
         formulario = ProductoFormulario()
-        contexto={
-            "mensaje_pro1":"Nuestros productos",
-            "mensaje_pro2":"Este es el listado de nuestros productos",
-            "formulario":formulario,
-            "imagen":avatar.imagen.url
-        }
+        try:
+            contexto={
+                "mensaje_pro1":"Nuestros productos",
+                "mensaje_pro2":"Este es el listado de nuestros productos",
+                "formulario":formulario,
+                "imagen":avatar.imagen.url
+            }
+        except:
+            contexto={
+                "mensaje_pro1":"Nuestros productos",
+                "mensaje_pro2":"Este es el listado de nuestros productos",
+                "formulario":formulario,
+                "imagen":""
+            }
+
         return render(request, "AppVistas/producto_actualizar.html", contexto)
     else:
         formulario = ProductoFormulario(request.POST)
@@ -150,7 +214,11 @@ def actualizar_producto(request,id_producto):
 
                 producto.save()
             except:
-                return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
+                try:
+                    contexto = {"imagen":avatar.imagen.url}
+                except:
+                    contexto = {"imagen":""}
+                return render(request, "AppVistas/volver.html", contexto)
 
         return redirect("productos")
 
@@ -189,13 +257,22 @@ def marcas(request):
     if request.method == "GET":
         form_marca = MarcaFormulario()
 
-        contexto_mar = {
-            "mensaje_mar1":"Las marcas",
-            "mensaje_mar2":"Trabajamos únicamente con las mejores marcas del mercado",
-            "marcas":marcas,
-            "form_marca":form_marca,
-            "imagen":avatar.imagen.url
-        }
+        try:
+            contexto_mar = {
+                "mensaje_mar1":"Las marcas",
+                "mensaje_mar2":"Trabajamos únicamente con las mejores marcas del mercado",
+                "marcas":marcas,
+                "form_marca":form_marca,
+                "imagen":avatar.imagen.url
+            }
+        except:
+            contexto_mar = {
+                "mensaje_mar1":"Las marcas",
+                "mensaje_mar2":"Trabajamos únicamente con las mejores marcas del mercado",
+                "marcas":marcas,
+                "form_marca":form_marca,
+                "imagen":""
+            }
 
         return render(request, "AppVistas/marcas.html", contexto_mar)
     else:
@@ -217,16 +294,29 @@ def marcas(request):
             marca.save()
 
             form_marca = MarcaFormulario()
-            contexto_mar = {
-            "mensaje_mar1":"Las marcas",
-            "mensaje_mar2":"Nueva marca cargada!",
-            "marcas":marcas,
-            "form_marca":form_marca,
-            "imagen":avatar.imagen.url
-            }
+            try:
+                contexto_mar = {
+                "mensaje_mar1":"Las marcas",
+                "mensaje_mar2":"Nueva marca cargada!",
+                "marcas":marcas,
+                "form_marca":form_marca,
+                "imagen":avatar.imagen.url
+                }
+            except:
+                    contexto_mar = {
+                "mensaje_mar1":"Las marcas",
+                "mensaje_mar2":"Nueva marca cargada!",
+                "marcas":marcas,
+                "form_marca":form_marca,
+                "imagen":""
+                }
             return render(request, "AppVistas/marcas.html", contexto_mar)
         else:
-            return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
+            try:
+                contexto = {"imagen":avatar.imagen.url}
+            except:
+                contexto = {"imagen":avatar.imagen.url}
+            return render(request, "AppVistas/volver.html", contexto)
 
 def borrar_marca(request, id_marca):
 
@@ -241,14 +331,22 @@ def borrar_marca(request, id_marca):
 
         return redirect("marcas")
     except:
-        contexto_mar = {
-        "mensaje_mar1":"Nuestros marcas",
-        "mensaje_mar2":"Error, no se puede borrar la marca!",
-        "marcas":marcas,
-        "form_marca":form_marca,
-        "imagen":avatar.imagen.url
-        }
-
+        try:
+            contexto_mar = {
+            "mensaje_mar1":"Nuestros marcas",
+            "mensaje_mar2":"Error, no se puede borrar la marca!",
+            "marcas":marcas,
+            "form_marca":form_marca,
+            "imagen":avatar.imagen.url
+            }
+        except:
+            contexto_mar = {
+            "mensaje_mar1":"Nuestros marcas",
+            "mensaje_mar2":"Error, no se puede borrar la marca!",
+            "marcas":marcas,
+            "form_marca":form_marca,
+            "imagen":""
+            }
         return render(request, "AppVistas/marcas.html",contexto_mar)
 
 def detalle_marca(request, id_marca):
@@ -256,12 +354,20 @@ def detalle_marca(request, id_marca):
     avatar = Avatar.objects.filter(usuario=request.user).first()
     marcas = Marcas.objects.get(id=id_marca)
 
-    contexto_mar = {
-        "mensaje_pro1":"Nuestras marcas",
-        "mensaje_pro2":"Este es el detalle:",
-        "marcas":marcas,
-        "imagen":avatar.imagen.url
-        }
+    try:
+        contexto_mar = {
+            "mensaje_pro1":"Nuestras marcas",
+            "mensaje_pro2":"Este es el detalle:",
+            "marcas":marcas,
+            "imagen":avatar.imagen.url
+            }
+    except:
+        contexto_mar = {
+            "mensaje_pro1":"Nuestras marcas",
+            "mensaje_pro2":"Este es el detalle:",
+            "marcas":marcas,
+            "imagen":""
+            }
 
     return render(request, "AppVistas/marca_detalle.html",contexto_mar)
 
@@ -271,12 +377,21 @@ def actualizar_marca(request,id_marca):
 
     if request.method == "GET":
         formulario = MarcaFormulario()
-        contexto={
-            "mensaje_pro1":"Nuestros productos",
-            "mensaje_pro2":"Este es el listado de nuestros productos",
-            "formulario":formulario,
-            "imagen":avatar.imagen.url
-        }
+
+        try:
+            contexto={
+                "mensaje_pro1":"Nuestros productos",
+                "mensaje_pro2":"Este es el listado de nuestros productos",
+                "formulario":formulario,
+                "imagen":avatar.imagen.url
+            }
+        except:
+                contexto={
+                "mensaje_pro1":"Nuestros productos",
+                "mensaje_pro2":"Este es el listado de nuestros productos",
+                "formulario":formulario,
+                "imagen":""
+            }
         return render(request, "AppVistas/marca_actualizar.html", contexto)
     else:
         formulario = MarcaFormulario(request.POST)
@@ -293,6 +408,10 @@ def actualizar_marca(request,id_marca):
 
                 marca.save()
             except:
-                return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
+                try:
+                    contexto = {"imagen":avatar.imagen.url}
+                except:
+                    contexto = {"imagen":""}
+                return render(request, "AppVistas/volver.html", contexto)
 
         return redirect("marcas")

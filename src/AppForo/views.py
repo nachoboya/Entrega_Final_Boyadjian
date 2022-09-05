@@ -16,11 +16,18 @@ def foro(request):
     if request.method == "GET":
         form_foro = ForoFormulario()
         
-        contexto = {
-        "mensajes":mensajes,
-        "form_foro":form_foro,
-        "imagen":avatar.imagen.url
-        }
+        try:
+            contexto = {
+            "mensajes":mensajes,
+            "form_foro":form_foro,
+            "imagen":avatar.imagen.url
+            }
+        except:
+            contexto = {
+            "mensajes":mensajes,
+            "form_foro":form_foro,
+            "imagen":""
+            }
 
         return render(request, "AppForo/foro.html", contexto)
 
@@ -42,11 +49,18 @@ def foro(request):
 
             form_foro = ForoFormulario()
 
-            contexto = {
-            "mensajes":mensajes,
-            "form_foro":form_foro,
-            "imagen":avatar.imagen.url
-            }
+            try:
+                contexto = {
+                "mensajes":mensajes,
+                "form_foro":form_foro,
+                "imagen":avatar.imagen.url
+                }
+            except:
+                contexto = {
+                "mensajes":mensajes,
+                "form_foro":form_foro,
+                "imagen":""
+                }
 
             return render(request, "AppForo/foro.html", contexto)
         else:
@@ -64,7 +78,12 @@ def borrar_mensaje(request, id_mensaje):
 
         return redirect("foro")
     except:
-        return render(request, "AppVistas/volver.html",{"imagen":avatar.imagen.url})
+        try:
+            contexto = {"imagen":avatar.imagen.url}
+        
+        except:
+            contexto = {"imagen":""}
+        return render(request, "AppVistas/volver.html",contexto)
 
 def editar_mensaje(request,id_mensaje):
 
@@ -72,10 +91,18 @@ def editar_mensaje(request,id_mensaje):
 
     if request.method == "GET":
         form_foro = ForoFormulario()
-        contexto={
-            "form_foro":form_foro,
-            "imagen":avatar.imagen.url
-        }
+
+        try:
+            contexto={
+                "form_foro":form_foro,
+                "imagen":avatar.imagen.url
+            }
+        except:
+            contexto={
+                "form_foro":form_foro,
+                "imagen":""
+            }
+
         return render(request, "AppForo/editar_mensaje.html", contexto)
     else:
         form_foro = ForoFormulario(request.POST)
@@ -90,6 +117,10 @@ def editar_mensaje(request,id_mensaje):
                 
                 mensaje.save()
             except:
-                return render(request, "AppVistas/volver.html", {"imagen":avatar.imagen.url})
+                try:
+                    contexto = {"imagen":avatar.imagen.url}
+                except:
+                    contexto = {"imagen":""}
+                return render(request, "AppVistas/volver.html", contexto)
 
         return redirect("foro")
