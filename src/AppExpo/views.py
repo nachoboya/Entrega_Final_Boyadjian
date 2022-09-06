@@ -94,15 +94,16 @@ def registrar_usuario(request):
 def editar_usuario(request):
 
     avatar = Avatar.objects.filter(usuario=request.user).first()
+    usuario = request.user
 
     if request.method == "GET":
         form = UserEditForm(initial={"email": request.user.email,
                             "first_name": request.user.first_name, "last_name": request.user.last_name})
-    try:
-        contexto = {"form": form,"imagen":avatar.imagen.url}
-        
-    except:
-        contexto = {"form": form,"imagen":""}
+        try:
+            contexto = {"form": form,"imagen":avatar.imagen.url}
+            
+        except:
+            contexto = {"form": form,"imagen":""}
         return render(request, "AppExpo/update_user.html",contexto)
     else:
         form = UserEditForm(request.POST)
@@ -142,7 +143,7 @@ def agregar_avatar(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            usuario = User.objects.get(username=request.user.username).first()
+            usuario = User.objects.get(username=request.user)
             avatar = Avatar(usuario=usuario, imagen=data["imagen"])
 
             avatar.save()
